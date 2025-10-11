@@ -1,34 +1,32 @@
 /**
- * Contact.jsx - Contact Information and Form Component
+ * Contact.jsx - Simple Side-by-Side Contact Component
  * 
- * This component provides visitors with multiple ways to contact Sanya Bansal.
- * It includes a contact form for direct messaging and displays contact information
- * including email, phone, location, and social media links.
+ * This component provides visitors with two clean containers side by side:
+ * - Contact Information Container: Personal details and professional links
+ * - Contact Form Container: Interactive messaging form
  * 
- * Features:
- * - Interactive contact form with validation
- * - Form state management with React hooks
- * - Contact information display with clickable links
- * - Form submission handling with user feedback
- * - Responsive design for all device sizes
- * - Navigation integration after form submission
+ * Features simple layout similar to services grid with responsive design.
  * 
  * @author Sanya Bansal
- * @version 1.0.0
- * @since 2025-09-30
+ * @version 2.0.0
+ * @since 2025-10-11
  */
 
 // Import React hooks and routing utilities
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import emailjs from '@emailjs/browser';
 
 /**
  * Contact Component
  * 
- * Renders a contact section with form and contact information.
- * Manages form state and handles form submission with navigation.
+ * Renders a contact section with two side-by-side containers:
+ * 1. Contact Information Container - Personal details and professional links
+ * 2. Contact Form Container - Interactive messaging form
  * 
- * @returns {JSX.Element} Complete contact section with form and info
+ * Features clean layout similar to services grid with responsive design.
+ * 
+ * @returns {JSX.Element} Complete contact section with side-by-side containers
  */
 export default function Contact() {
   // Navigation hook for programmatic routing
@@ -76,111 +74,284 @@ export default function Contact() {
   /**
    * Form Submission Handler
    * 
-   * Processes form submission by preventing default browser behavior,
-   * displaying a confirmation message with the submitted data, clearing
-   * the form, and redirecting to the home page.
-   * 
-   * Note: In a production environment, this would send data to a backend
-   * service or email API instead of just showing an alert.
+   * Processes form submission with multiple email sending methods:
+   * 1. EmailJS service (primary method)
+   * 2. Mailto fallback (if EmailJS fails)
    * 
    * @param {Event} e - The form submission event
    */
-  const handleSubmit = (formSubmissionEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const handleSubmit = async (formSubmissionEvent) => {
     // Prevent default form submission behavior
     formSubmissionEvent.preventDefault();
+    setIsSubmitting(true);
     
-    // Display confirmation message with submitted data
-    alert(
-      `Thank you, ${formData.firstName}!\n\nYour message has been received:\n` +
-      `Name: ${formData.firstName} ${formData.lastName}\n` +
-      `Email: ${formData.email}\n` +
-      `Phone: ${formData.phone}\n` +
-      `Message: ${formData.message}\n\nRedirecting to home...`
-    );
-    
-    // Reset form to initial empty state
-    setFormData({ 
-      firstName: '', 
-      lastName: '', 
-      email: '', 
-      phone: '', 
-      message: '' 
-    });
-    
-    // Navigate to home page after brief delay
-    setTimeout(() => navigate('/'), 500);
+    try {
+      // Method 1: Try EmailJS first (requires setup)
+      const emailJSServiceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_your_id';
+      const emailJSTemplateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_your_id';
+      const emailJSPublicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'your_public_key';
+      
+      // EmailJS template parameters
+      const templateParams = {
+        from_name: `${formData.firstName} ${formData.lastName}`,
+        from_email: formData.email,
+        phone: formData.phone,
+        message: formData.message,
+        to_email: 'sanya.bansal.115@gmail.com'
+      };
+      
+      try {
+        // Attempt to send via EmailJS
+        const response = await emailjs.send(
+          emailJSServiceId,
+          emailJSTemplateId,
+          templateParams,
+          emailJSPublicKey
+        );
+        
+        if (response.status === 200) {
+          alert(
+            `Thank you, ${formData.firstName}!\n\nYour message has been sent successfully to sanya.bansal.115@gmail.com.\n\nI'll get back to you within 4-6 hours!`
+          );
+          
+          // Reset form
+          setFormData({ 
+            firstName: '', 
+            lastName: '', 
+            email: '', 
+            phone: '', 
+            message: '' 
+          });
+          
+          return; // Success, exit function
+        }
+      } catch (emailJSError) {
+        console.log('EmailJS failed, trying fallback method:', emailJSError);
+      }
+      
+      // Method 2: Fallback to mailto method
+      const subject = `Portfolio Contact: ${formData.firstName} ${formData.lastName}`;
+      const body = `
+Hi Sanya,
+
+You have received a new message from your portfolio website:
+
+Name: ${formData.firstName} ${formData.lastName}
+Email: ${formData.email}
+Phone: ${formData.phone}
+
+Message:
+${formData.message}
+
+---
+Sent from your portfolio contact form
+      `;
+      
+      // Create mailto link
+      const mailtoLink = `mailto:sanya.bansal.115@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      
+      // Open user's default email client
+      window.location.href = mailtoLink;
+      
+      // Show success message
+      alert(
+        `Thank you, ${formData.firstName}!\n\nYour email client will open with a pre-filled message to sanya.bansal.115@gmail.com.\n\nPlease send the email from your email client to complete your message.`
+      );
+      
+      // Reset form to initial empty state
+      setFormData({ 
+        firstName: '', 
+        lastName: '', 
+        email: '', 
+        phone: '', 
+        message: '' 
+      });
+      
+    } catch (error) {
+      console.error('Error sending message:', error);
+      alert(
+        `Sorry, there was an error sending your message.\n\nPlease email me directly at:\nsanya.bansal.115@gmail.com\n\nOr try again in a few moments.`
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <section className="contact-section">
-      <h2 className="section-title">Get In Touch</h2>
+      <h2 className="section-title">Let's Connect</h2>
       <p className="section-subtitle">
-        I'd love to hear from you! Let's discuss your project or just connect.
+        Ready to bring your data science vision to life? Let's discuss your project!
       </p>
       
-      <div className="contact-container">
-        <div className="contact-info">
-          <h3>Contact Information</h3>
-          <div className="contact-item">
-            <span className="contact-icon">📧</span>
-            <div>
-              <strong>Email</strong>
-              <p>sanya.bansal.115@gmail.com</p>
-            </div>
+      {/* Centered Contact Grid - Two Hover Cards */}
+      <div className="contact-grid">
+        
+        {/* Contact Information Card */}
+        <div className="contact-card contact-info-card">
+          <div className="card-header">
+            <span className="card-icon">🤝</span>
+            <h3>Get In Touch</h3>
           </div>
-          <div className="contact-item">
-            <span className="contact-icon">📱</span>
-            <div>
-              <strong>Phone</strong>
-              <p>+1 (437) 733-1773</p>
+          
+          <div className="contact-details">
+            <div className="contact-item">
+              <span className="contact-icon">👨‍💻</span>
+              <div className="contact-content">
+                <strong>Sanya Bansal</strong>
+                <p>AI & Data Science Specialist</p>
+              </div>
             </div>
-          </div>
-          <div className="contact-item">
-            <span className="contact-icon">📍</span>
-            <div>
-              <strong>Location</strong>
-              <p>Toronto, Ontario, Canada</p>
+            
+            <div className="contact-item">
+              <span className="contact-icon">📧</span>
+              <div className="contact-content">
+                <strong>Email</strong>
+                <p>
+                  <a href="mailto:sanya.bansal.115@gmail.com">
+                    sanya.bansal.115@gmail.com
+                  </a>
+                </p>
+              </div>
             </div>
-          </div>
-          <div className="contact-item">
-            <span className="contact-icon">🌐</span>
-            <div>
-              <strong>Connect</strong>
-              <p>
-                <a href="https://www.linkedin.com/in/sanya-bansal-824830302/" target="_blank" rel="noopener noreferrer">LinkedIn</a> | 
-                <a href="https://github.com/Sanyabansal115" target="_blank" rel="noopener noreferrer"> GitHub</a>
-              </p>
+            
+            <div className="contact-item">
+              <span className="contact-icon">📱</span>
+              <div className="contact-content">
+                <strong>Phone</strong>
+                <p>
+                  <a href="tel:+14377331773">
+                    +1 (437) 733-1773
+                  </a>
+                </p>
+              </div>
+            </div>
+            
+            <div className="contact-item">
+              <span className="contact-icon">📍</span>
+              <div className="contact-content">
+                <strong>Location</strong>
+                <p>Toronto, Ontario, Canada</p>
+              </div>
+            </div>
+            
+            <div className="social-links">
+              <h4>Connect With Me</h4>
+              <div className="social-buttons">
+                <a 
+                  href="https://www.linkedin.com/in/sanya-bansal-824830302/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="social-btn linkedin"
+                >
+                  <span>💼</span>
+                  LinkedIn
+                </a>
+                <a 
+                  href="https://github.com/Sanyabansal115" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="social-btn github"
+                >
+                  <span>💻</span>
+                  GitHub
+                </a>
+              </div>
+            </div>
+            
+            <div className="availability">
+              <span className="status-dot">🟢</span>
+              <p>Available for freelance projects and full-time opportunities</p>
             </div>
           </div>
         </div>
 
-        <div className="contact-form">
-          <h3>Send Me a Message</h3>
-          <form onSubmit={handleSubmit}>
+        {/* Contact Form Card */}
+        <div className="contact-card contact-form-card">
+          <div className="card-header">
+            <span className="card-icon">📝</span>
+            <h3>Send Me a Message</h3>
+          </div>
+          
+          <form onSubmit={handleSubmit} className="contact-form">
             <div className="form-row">
               <div className="form-group">
                 <label htmlFor="firstName">First Name *</label>
-                <input type="text" id="firstName" name="firstName" value={formData.firstName} onChange={handleChange} required placeholder="John" />
+                <input 
+                  type="text" 
+                  id="firstName" 
+                  name="firstName" 
+                  value={formData.firstName} 
+                  onChange={handleChange} 
+                  required 
+                  placeholder="John" 
+                />
               </div>
               <div className="form-group">
                 <label htmlFor="lastName">Last Name *</label>
-                <input type="text" id="lastName" name="lastName" value={formData.lastName} onChange={handleChange} required placeholder="Doe" />
+                <input 
+                  type="text" 
+                  id="lastName" 
+                  name="lastName" 
+                  value={formData.lastName} 
+                  onChange={handleChange} 
+                  required 
+                  placeholder="Doe" 
+                />
               </div>
             </div>
+            
             <div className="form-group">
               <label htmlFor="email">Email Address *</label>
-              <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required placeholder="john@example.com" />
+              <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                value={formData.email} 
+                onChange={handleChange} 
+                required 
+                placeholder="john@example.com" 
+              />
             </div>
+            
             <div className="form-group">
               <label htmlFor="phone">Contact Number</label>
-              <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleChange} placeholder="+1 (123) 456-7890" />
+              <input 
+                type="tel" 
+                id="phone" 
+                name="phone" 
+                value={formData.phone} 
+                onChange={handleChange} 
+                placeholder="+1 (123) 456-7890" 
+              />
             </div>
+            
             <div className="form-group">
-              <label htmlFor="message">Message *</label>
-              <textarea id="message" name="message" value={formData.message} onChange={handleChange} required placeholder="Your message..." rows="5"></textarea>
+              <label htmlFor="message">Project Details / Message *</label>
+              <textarea 
+                id="message" 
+                name="message" 
+                value={formData.message} 
+                onChange={handleChange} 
+                required 
+                placeholder="Tell me about your project, goals, and how I can help..."
+                rows="5"
+              ></textarea>
             </div>
-            <button type="submit" className="btn btn-primary btn-full">Send Message</button>
+            
+            <button type="submit" className="btn btn-primary btn-full" disabled={isSubmitting}>
+              {isSubmitting ? 'Sending...' : 'Send Message to Sanya'}
+            </button>
           </form>
+          
+          <div className="form-footer">
+            <p>
+              <span>⏱️</span>
+              Typical response time: 4-6 hours
+            </p>
+          </div>
         </div>
       </div>
     </section>

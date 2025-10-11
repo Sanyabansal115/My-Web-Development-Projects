@@ -1,10 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Navigation() {
+  const navigate = useNavigate();
+
+  const handleLogoClick = () => {
+    navigate('/');
+  };
+
   return (
     <nav className="navigation">
       <div className="logo">
+        <div className="logo-shape" onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
+          <span className="logo-initials">SB</span>
+        </div>
         <span className="logo-text">Sanya Bansal</span>
       </div>
       <ul className="nav-links">
