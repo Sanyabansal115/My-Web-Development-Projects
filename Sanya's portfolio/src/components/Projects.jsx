@@ -66,7 +66,7 @@ export default function Projects() {
     {
       title: "Traditional Japanese Wave Art",
       description: "Intricate pen and ink drawing inspired by traditional Japanese wave patterns. Features detailed line work and flowing organic forms reminiscent of Hokusai's Great Wave.",
-      image: "/images/artwork/Sketch1.jpg",
+      image: "/images/artwork/Sketch6.jpg",
       tags: ["Pen & Ink", "Traditional Art", "Japanese Style", "Line Art"]
     },
     {
@@ -78,7 +78,7 @@ export default function Projects() {
     {
       title: "Harry Potter Fan Art - Dobby",
       description: "Charming illustration of Dobby the house elf from the Harry Potter series. Features expressive character design with accompanying text.",
-      image: "/images/artwork/Sketch2.jpg",
+      image: "/images/artwork/Cartoon art.jpg",
       tags: ["Fan Art", "Character Design", "Harry Potter", "Illustration"]
     },
     {
@@ -96,31 +96,31 @@ export default function Projects() {
     {
       title: "Nature Sketches - Tree Swing",
       description: "Detailed pen and ink landscape drawing featuring a tree with a swing. Shows excellent understanding of perspective, texture, and natural forms.",
-      image: "/images/artwork/Sketch6.jpg",
+      image: "/images/artwork/Sketch1.jpg",
       tags: ["Pen & Ink", "Landscape", "Nature", "Detailed Drawing"]
     },
     {
       title: "Mythical Creatures - Deer Spirit",
       description: "Enchanting illustration of a deer with antlers that transform into trees and birds. Combines nature elements with fantasy concepts.",
-      image: "/images/artwork/Sketch3.jpg",
+      image: "/images/artwork/Sketch2.jpg",
       tags: ["Fantasy Art", "Mythical Creatures", "Surreal", "Nature Spirits"]
     },
     {
       title: "Seascape with Birds",
       description: "Dynamic seascape drawing featuring waves and flying seabirds. Excellent use of line work to show movement and texture in both water and sky.",
-      image: "/images/artwork/Sketch4.jpg",
+      image: "/images/artwork/Sketch3.jpg",
       tags: ["Seascape", "Birds", "Environmental Art", "Line Drawing"]
     },
     {
       title: "Lotus Flower Study",
       description: "Detailed botanical drawing of a lotus flower with leaves. Shows excellent understanding of botanical illustration techniques and attention to natural details.",
-      image: "/images/artwork/Sketch5.jpg",
+      image: "/images/artwork/Sketch4.jpg",
       tags: ["Botanical Art", "Graphite Drawing", "Nature Study", "Realistic"]
     },
     {
       title: "Japanese Temple in Clouds",
       description: "Atmospheric illustration of a traditional Japanese temple surrounded by stylized clouds. Shows mastery of architectural drawing and traditional Asian artistic elements.",
-      image: "/images/artwork/Cartoon art.jpg",
+      image: "/images/artwork/Sketch5.jpg",
       tags: ["Architecture", "Japanese Art", "Traditional", "Atmospheric"]
     }
   ];
