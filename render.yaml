@@ -2,8 +2,9 @@ services:
   - type: web
     name: sanya-portfolio
     env: static
-    buildCommand: cd "Sanya's portfolio" && npm install && npm run build
-    staticPublishPath: ./Sanya's portfolio/dist
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    rootDir: Sanya's portfolio
     routes:
       - type: rewrite
         source: /*
