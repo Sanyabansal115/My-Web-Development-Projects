@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: sanya-portfolio
+    env: static
+    buildCommand: cd "Sanya's portfolio" && npm install && npm run build
+    staticPublishPath: ./Sanya's portfolio/dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
