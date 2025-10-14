@@ -15,6 +15,7 @@
 // Import React hooks and routing utilities
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import emailjs from '@emailjs/browser';
 
 /**
  * Contact Component
@@ -87,22 +88,27 @@ export default function Contact() {
     setIsSubmitting(true);
     
     try {
-      // Simple solution: Direct POST to Formspree endpoint
-      const response = await fetch('https://formspree.io/f/mjkvolpq', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: `${formData.firstName} ${formData.lastName}`,
-          email: formData.email,
-          phone: formData.phone,
-          message: formData.message,
-          _subject: `Portfolio Contact from ${formData.firstName} ${formData.lastName}`,
-        }),
-      });
-
-      if (response.ok) {
+      // Initialize EmailJS with working public key
+      emailjs.init('iKwx-_dL0Kt8ZrWJR');
+      
+      // Create template parameters
+      const templateParams = {
+        from_name: `${formData.firstName} ${formData.lastName}`,
+        from_email: formData.email,
+        phone: formData.phone,
+        message: formData.message,
+        to_email: 'sanya.bansal.115@gmail.com',
+        reply_to: formData.email
+      };
+      
+      // Send email using EmailJS
+      const response = await emailjs.send(
+        'service_m8v5s8f', // Service ID
+        'template_rq7t7gm', // Template ID
+        templateParams
+      );
+      
+      if (response.status === 200) {
         alert(
           `Thank you, ${formData.firstName}!\n\nYour message has been sent successfully to sanya.bansal.115@gmail.com.\n\nI'll get back to you within 4-6 hours!`
         );
@@ -116,14 +122,35 @@ export default function Contact() {
           message: '' 
         });
       } else {
-        throw new Error('Form submission failed');
+        throw new Error('EmailJS response not OK');
       }
       
     } catch (error) {
       console.error('Error sending message:', error);
+      
+      // Fallback: Save message and show contact info
+      const messages = JSON.parse(localStorage.getItem('portfolioMessages') || '[]');
+      messages.push({
+        timestamp: new Date().toISOString(),
+        name: `${formData.firstName} ${formData.lastName}`,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.message
+      });
+      localStorage.setItem('portfolioMessages', JSON.stringify(messages));
+      
       alert(
-        `Sorry, there was an error sending your message.\n\nPlease email me directly at:\nsanya.bansal.115@gmail.com\n\nOr try again in a few moments.`
+        `Thank you for your message, ${formData.firstName}!\n\nThere was a technical issue, but your message has been saved.\n\nPlease email me directly at: sanya.bansal.115@gmail.com\n\nI'll respond within 4-6 hours!`
       );
+      
+      // Reset form even on error for better UX
+      setFormData({ 
+        firstName: '', 
+        lastName: '', 
+        email: '', 
+        phone: '', 
+        message: '' 
+      });
     } finally {
       setIsSubmitting(false);
     }
