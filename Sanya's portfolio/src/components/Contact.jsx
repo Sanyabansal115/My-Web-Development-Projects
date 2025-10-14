@@ -15,7 +15,6 @@
 // Import React hooks and routing utilities
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import emailjs from '@emailjs/browser';
 
 /**
  * Contact Component
@@ -88,86 +87,37 @@ export default function Contact() {
     setIsSubmitting(true);
     
     try {
-      // Method 1: Try EmailJS first (requires setup)
-      const emailJSServiceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_your_id';
-      const emailJSTemplateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_your_id';
-      const emailJSPublicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'your_public_key';
-      
-      // EmailJS template parameters
-      const templateParams = {
-        from_name: `${formData.firstName} ${formData.lastName}`,
-        from_email: formData.email,
-        phone: formData.phone,
-        message: formData.message,
-        to_email: 'sanya.bansal.115@gmail.com'
-      };
-      
-      try {
-        // Attempt to send via EmailJS
-        const response = await emailjs.send(
-          emailJSServiceId,
-          emailJSTemplateId,
-          templateParams,
-          emailJSPublicKey
+      // Simple solution: Direct POST to Formspree endpoint
+      const response = await fetch('https://formspree.io/f/mjkvolpq', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: `${formData.firstName} ${formData.lastName}`,
+          email: formData.email,
+          phone: formData.phone,
+          message: formData.message,
+          _subject: `Portfolio Contact from ${formData.firstName} ${formData.lastName}`,
+        }),
+      });
+
+      if (response.ok) {
+        alert(
+          `Thank you, ${formData.firstName}!\n\nYour message has been sent successfully to sanya.bansal.115@gmail.com.\n\nI'll get back to you within 4-6 hours!`
         );
         
-        if (response.status === 200) {
-          alert(
-            `Thank you, ${formData.firstName}!\n\nYour message has been sent successfully to sanya.bansal.115@gmail.com.\n\nI'll get back to you within 4-6 hours!`
-          );
-          
-          // Reset form
-          setFormData({ 
-            firstName: '', 
-            lastName: '', 
-            email: '', 
-            phone: '', 
-            message: '' 
-          });
-          
-          return; // Success, exit function
-        }
-      } catch (emailJSError) {
-        console.log('EmailJS failed, trying fallback method:', emailJSError);
+        // Reset form
+        setFormData({ 
+          firstName: '', 
+          lastName: '', 
+          email: '', 
+          phone: '', 
+          message: '' 
+        });
+      } else {
+        throw new Error('Form submission failed');
       }
-      
-      // Method 2: Fallback to mailto method
-      const subject = `Portfolio Contact: ${formData.firstName} ${formData.lastName}`;
-      const body = `
-Hi Sanya,
-
-You have received a new message from your portfolio website:
-
-Name: ${formData.firstName} ${formData.lastName}
-Email: ${formData.email}
-Phone: ${formData.phone}
-
-Message:
-${formData.message}
-
----
-Sent from your portfolio contact form
-      `;
-      
-      // Create mailto link
-      const mailtoLink = `mailto:sanya.bansal.115@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      
-      // Open user's default email client
-      window.location.href = mailtoLink;
-      
-      // Show success message
-      alert(
-        `Thank you, ${formData.firstName}!\n\nYour email client will open with a pre-filled message to sanya.bansal.115@gmail.com.\n\nPlease send the email from your email client to complete your message.`
-      );
-      
-      // Reset form to initial empty state
-      setFormData({ 
-        firstName: '', 
-        lastName: '', 
-        email: '', 
-        phone: '', 
-        message: '' 
-      });
       
     } catch (error) {
       console.error('Error sending message:', error);
