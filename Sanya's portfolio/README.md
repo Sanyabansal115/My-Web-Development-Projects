@@ -4,10 +4,11 @@ A modern, responsive portfolio website built with React and Vite, showcasing my 
 
 ## 🌟 Live Demo
 
-- **Live Site**: [https://sanyabansal115.github.io/My-Web-Development/](https://sanyabansal115.github.io/My-Web-Development/)
-- **Repository**: [https://github.com/Sanyabansal115/My-Web-Development](https://github.com/Sanyabansal115/My-Web-Development)
+- **🚀 Live Site**: [https://sanya-s-portfolio.vercel.app](https://sanya-s-portfolio.vercel.app)
+- **📱 Mobile Optimized**: Fully responsive design
+- **⚡ Fast Loading**: Optimized with Vite and deployed on Vercel
 
-> **Note**: The site is automatically deployed using GitHub Actions. Any updates to the main branch trigger a new deployment.
+> **Note**: The site is automatically deployed on Vercel. Any updates to the master branch trigger a new deployment.
 
 ## 📋 Table of Contents
 
@@ -34,12 +35,15 @@ This portfolio website serves as a comprehensive showcase of my journey as a Sof
 
 ## ✨ Features
 
-- **Responsive Design**: Optimized for all device sizes
-- **Modern UI/UX**: Clean, professional design with smooth animations
-- **Interactive Components**: Dynamic project filtering, contact forms
-- **Document Integration**: PDF transcript and certificate viewing
-- **SEO Optimized**: Proper meta tags and semantic HTML
-- **Performance Optimized**: Fast loading with Vite build system
+- **📱 Responsive Design**: Optimized for all device sizes (mobile, tablet, desktop)
+- **🎨 Modern UI/UX**: Clean, professional design with smooth animations
+- **🖼️ Interactive Gallery**: Modal galleries for art and volleyball projects with image lightbox
+- **📧 Smart Contact Form**: Automatic email delivery using EmailJS (no email client required)
+- **🔗 GitHub Integration**: Direct links to all technical project repositories
+- **📄 Document Integration**: PDF transcript and certificate viewing
+- **🚀 SEO Optimized**: Proper meta tags and semantic HTML
+- **⚡ Performance Optimized**: Fast loading with Vite build system and Vercel hosting
+- **💡 Professional Showcase**: Comprehensive display of skills, education, and projects
 
 ## 🛠 Technologies Used
 
@@ -47,7 +51,8 @@ This portfolio website serves as a comprehensive showcase of my journey as a Sof
 - **React 18**: Modern React with hooks and functional components
 - **Vite**: Fast build tool and development server
 - **React Router**: Client-side routing for SPA navigation
-- **CSS3**: Custom styling with CSS Grid and Flexbox
+- **EmailJS**: Contact form email service integration
+- **CSS3**: Custom styling with CSS Grid, Flexbox, and modern animations
 - **JavaScript ES6+**: Modern JavaScript features
 
 ### Development Tools
@@ -55,17 +60,22 @@ This portfolio website serves as a comprehensive showcase of my journey as a Sof
 - **Git**: Version control
 - **VS Code**: Primary development environment
 
-### Deployment
+### Deployment & Hosting
+- **Vercel**: Production hosting platform with automatic deployments
 - **GitHub**: Version control and repository hosting
-- **Vercel/Netlify**: Cloud hosting platform (to be deployed)
+- **Custom Domain**: Professional domain setup
 
 ## 📁 Project Structure
 
 ```
 sanya-portfolio/
+├── .github/                    # GitHub workflows and repository config
+├── .vercel/                    # Vercel deployment configuration
 ├── public/                     # Static assets
 │   ├── images/                 # Image assets
 │   │   ├── profile.jpg         # Profile picture
+│   │   ├── art-gallery/        # Digital art portfolio images
+│   │   ├── volleyball/         # Volleyball team photos
 │   │   ├── Data Science, ML & Ai.png  # Certificate image
 │   │   └── SQL Database.png    # Certificate image
 │   ├── projects/               # Project files and data
@@ -74,12 +84,12 @@ sanya-portfolio/
 ├── src/                        # Source code
 │   ├── components/             # React components
 │   │   ├── About.jsx           # About section component
-│   │   ├── Contact.jsx         # Contact form and info
+│   │   ├── Contact.jsx         # Contact form with EmailJS integration
 │   │   ├── Education.jsx       # Education and certifications
 │   │   ├── Home.jsx            # Hero section
-│   │   ├── Navigation.jsx      # Navigation bar
-│   │   ├── Projects.jsx        # Project showcase
-│   │   └── Services.jsx        # Services offered
+│   │   ├── Navigation.jsx      # Navigation bar component
+│   │   ├── Projects.jsx        # Project showcase with GitHub links and modals
+│   │   └── Services.jsx        # Services offered section
 │   ├── App.jsx                 # Main application component
 │   ├── App.css                 # Application styles
 │   ├── index.css               # Global styles and variables
@@ -90,6 +100,7 @@ sanya-portfolio/
 ├── index.html                  # HTML template
 ├── package.json                # Project dependencies
 ├── README.md                   # Project documentation
+├── vercel.json                 # Vercel deployment configuration
 └── vite.config.js              # Vite configuration
 ```
 
@@ -104,7 +115,7 @@ sanya-portfolio/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/Sanyabansal115/My-Web-Development.git
+   git clone https://github.com/Sanyabansal115/My-Web-Development-Projects.git
    cd "Sanya's portfolio"
    ```
 
@@ -141,6 +152,39 @@ npm run preview
 npm run lint
 ```
 
+### Deployment
+
+The portfolio is automatically deployed to Vercel:
+- **Production**: [https://sanya-s-portfolio.vercel.app](https://sanya-s-portfolio.vercel.app)
+- **Auto-deployment**: Pushes to master branch trigger automatic deployments
+- **Environment**: Production environment with optimized builds
+
+### Contact Form
+
+The contact form uses EmailJS for automatic email delivery:
+- ✅ **No email client required** - Messages sent directly to sanya.bansal.115@gmail.com
+- ✅ **Form validation** - Client-side validation for better UX
+- ✅ **Success feedback** - Users receive confirmation when message is sent
+- ✅ **Error handling** - Graceful fallback with contact information
+
+## 🆕 Recent Updates & Improvements
+
+### Latest Features (October 2025)
+- ✨ **Interactive Gallery Modals**: Added lightbox galleries for Digital Art Portfolio and Volleyball projects
+- 🔗 **GitHub Integration**: Direct links to all technical project repositories
+- 📧 **Enhanced Contact Form**: Automatic email delivery using EmailJS (no manual email client required)
+- 🚀 **Vercel Deployment**: Migrated to Vercel for faster, more reliable hosting
+- 🧹 **Project Cleanup**: Removed unnecessary files, optimized structure for better performance
+- 📱 **Mobile Optimization**: Improved responsive design for better mobile experience
+- ⚡ **Performance Boost**: Optimized loading times and user experience
+
+### Technical Improvements
+- **Email Service**: Integrated EmailJS for seamless contact form functionality
+- **Modal System**: Custom modal components for project galleries
+- **GitHub API**: Direct repository linking for technical projects
+- **Build Optimization**: Cleaned project structure, removed build artifacts
+- **Deployment Pipeline**: Automated Vercel deployment from GitHub
+
 ## 📧 Contact
 
 - **Email**: sanya.bansal.115@gmail.com
@@ -156,7 +200,9 @@ npm run lint
 - **Teach Savvy** - C Programming Certification
 - **React Community** - Framework and ecosystem
 - **Vite Team** - Build tool and development experience
-- **GitHub Copilot** - AI assistance for documentation and development best practices
+- **Vercel** - Hosting platform and deployment infrastructure
+- **EmailJS** - Contact form email service
+- **GitHub Copilot** - AI assistance for development and documentation
 
 ## 🎨 Design Inspiration
 
